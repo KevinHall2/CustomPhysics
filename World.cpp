@@ -13,6 +13,8 @@ void World::Init()
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 
     SetTargetFPS(60);
+
+    OnInit();
 }
 
 void World::Tick()
@@ -26,6 +28,16 @@ void World::TickFixed()
 {
     AccumulatedFixedTime -= TargetFixedStep;
 
+    for (auto& PObj : PhysObjects)
+    {
+        PObj.gravityEnabled = true;
+        if (PObj.gravityEnabled)
+        {
+            PObj.AddAcceleration({ 0,10 });
+            PObj.TickPhys(TargetFixedStep);
+        }
+    }
+
     OnTickFixed();
 }
 
@@ -37,11 +49,20 @@ void World::Draw()
 
     DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
 
+    for (auto& PObj : PhysObjects)
+    {
+        PObj.Draw();
+    }
+
     EndDrawing();
+
+    OnDraw();
 }
 
 void World::Exit()
 {
+    OnExit();
+
     CloseWindow();        // Close window and OpenGL context
 }
 

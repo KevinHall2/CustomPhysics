@@ -9,9 +9,25 @@ public:
 
 	glm::vec2 Velocity;
 
+	glm::vec2 Forces;
+
+	//Determines whether an object is effected by gravity or not
+	bool gravityEnabled;
+
 	PhysObject();
 
-	PhysObject AddForce(glm::vec2 force);
-
 	void TickPhys(float Delta);
+	void Draw() const;
+
+	//Applies continuous forces on objects of any mass equally like gravity
+	void AddAcceleration(const glm::vec2 & Acceleration);
+
+	//Applies instantaneous forces on objects of any mass equally to emulate platform movement
+	void AddVelocity(const glm::vec2& Velocity);
+
+	//Applies continuous forces that consider objects' mass
+	void AddForces(const glm::vec2& Force);
+
+	//Applies instantaneous forces that consider objects' mass
+	void AddImpulses(const glm::vec2& Impulse);
 };

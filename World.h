@@ -1,8 +1,13 @@
 #pragma once
-
+#include <memory>
+#include <vector>
+#include "PhysObject.h"
 
 class World
 {
+private:
+	std::vector<PhysObject> PhysObjects;
+
 protected:
 	//Represents elapsed time since last fixed tick
 	float AccumulatedFixedTime;
@@ -38,7 +43,12 @@ public:
 
 protected:
 	//Runs at the end of Init()
-	virtual void OnInit() {};
+	virtual void OnInit()
+	{
+		PhysObject newObject;
+		newObject.Position = { 300, 300 };
+		PhysObjects.push_back(newObject);
+	};
 
 	//Runs at the end of Tick()
 	virtual void OnTick() {};
