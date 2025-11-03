@@ -3,13 +3,13 @@
   "spdxVersion": "SPDX-2.2",
   "dataLicense": "CC0-1.0",
   "SPDXID": "SPDXRef-DOCUMENT",
-  "documentNamespace": "https://spdx.org/spdxdocs/raylib-cpp-x64-windows-5.5.0#1-064e7369-fd21-438f-adb3-53b43a0bb3d9",
-  "name": "raylib-cpp:x64-windows@5.5.0#1 fb59cee2f6387000e67f434584f31dbc0fd0c6c2495106a120b4f74a37c96272",
+  "documentNamespace": "https://spdx.org/spdxdocs/raylib-cpp-x64-windows-5.5.0#1-25166599-d5d4-44ad-9117-153d1ffe58aa",
+  "name": "raylib-cpp:x64-windows@5.5.0#1 2b368c0528b340cf4c3cf4ab64de2c38d4af59852b4d75943d1cc65a0b385bd4",
   "creationInfo": {
     "creators": [
-      "Tool: vcpkg-2025-09-03-4580816534ed8fd9634ac83d46471440edd82dfe"
+      "Tool: vcpkg-2025-10-16-71538f2694db93da4668782d094768ba74c45991"
     ],
-    "created": "2025-10-31T14:22:53Z"
+    "created": "2025-11-03T23:02:56Z"
   },
   "relationships": [
     {
@@ -284,7 +284,7 @@
     {
       "name": "raylib-cpp:x64-windows",
       "SPDXID": "SPDXRef-binary",
-      "versionInfo": "fb59cee2f6387000e67f434584f31dbc0fd0c6c2495106a120b4f74a37c96272",
+      "versionInfo": "2b368c0528b340cf4c3cf4ab64de2c38d4af59852b4d75943d1cc65a0b385bd4",
       "downloadLocation": "NONE",
       "licenseConcluded": "Zlib",
       "licenseDeclared": "NOASSERTION",

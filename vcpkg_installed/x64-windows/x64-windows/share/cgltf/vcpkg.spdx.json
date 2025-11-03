@@ -3,13 +3,13 @@
   "spdxVersion": "SPDX-2.2",
   "dataLicense": "CC0-1.0",
   "SPDXID": "SPDXRef-DOCUMENT",
-  "documentNamespace": "https://spdx.org/spdxdocs/cgltf-x64-windows-1.14-142a3bbf-6965-4a3b-9584-eb923174a885",
-  "name": "cgltf:x64-windows@1.14 8e6afaf08deccc78ef866338e83e743bf2cb0ee0a612c9b51a1a1236537c881c",
+  "documentNamespace": "https://spdx.org/spdxdocs/cgltf-x64-windows-1.14-134f7b5f-8cae-4cf8-b44b-363c95b13246",
+  "name": "cgltf:x64-windows@1.14 5d016e91b6ec8bc65ddedd54c3d85ef759d5cc9ab947a4585ccb0ecaf9c28990",
   "creationInfo": {
     "creators": [
-      "Tool: vcpkg-2025-09-03-4580816534ed8fd9634ac83d46471440edd82dfe"
+      "Tool: vcpkg-2025-10-16-71538f2694db93da4668782d094768ba74c45991"
     ],
-    "created": "2025-10-30T17:35:57Z"
+    "created": "2025-11-03T23:02:30Z"
   },
   "relationships": [
     {
@@ -69,7 +69,7 @@
     {
       "name": "cgltf:x64-windows",
       "SPDXID": "SPDXRef-binary",
-      "versionInfo": "8e6afaf08deccc78ef866338e83e743bf2cb0ee0a612c9b51a1a1236537c881c",
+      "versionInfo": "5d016e91b6ec8bc65ddedd54c3d85ef759d5cc9ab947a4585ccb0ecaf9c28990",
       "downloadLocation": "NONE",
       "licenseConcluded": "MIT",
       "licenseDeclared": "NOASSERTION",
