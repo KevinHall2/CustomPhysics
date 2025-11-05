@@ -1,35 +1,52 @@
 #include "PhysObject.h"
 #include "raylib-cpp.hpp"
 
-PhysObject::PhysObject() : Position({ 0,0 }), Velocity({ 0,0 }), Forces({ 0,0 })
+PhysObject::PhysObject() : Position({ 0,0 }), Velocity({ 0,0 }), PendingAcceleration({ 0,0 })
 {
 }
 
-void PhysObject::TickPhys(float Delta)
+void PhysObject::ContinuousTick(float Delta)
 {
-	Velocity += Forces * Delta;
-	Forces = {};
+	Velocity += PendingAcceleration * Delta;
+	PendingAcceleration = {};
 	Position += Velocity * Delta;
 }
 
-void PhysObject::DrawPhysicsCircle() const
+void PhysObject::InstantaneousTick(float Delta)
+{
+	Position += Velocity * Delta;
+}
+
+void PhysObject::DrawPhysicsCircleOne() const
 {
 	DrawCircle(Position.x, Position.y, 30, raylib::Color::Red());
 }
 
+void PhysObject::DrawPhysicsCircleTwo() const
+{
+	DrawCircle(Position.x+75, Position.y+75, 30, raylib::Color::Blue());
+}
+
+//Applies continuous forces on objects of any mass equally like gravity
 void PhysObject::AddAcceleration(const glm::vec2& Acceleration)
 {
-	Forces += Acceleration;
+	PendingAcceleration += Acceleration;
 }
 
-void PhysObject::AddVelocity(const glm::vec2& Velocity)
+//Applies instantaneous forces on objects of any mass equally to emulate platform movement
+void PhysObject::AddVelocity(const glm::vec2& velocity)
 {
+	Velocity += velocity;
 }
 
-void PhysObject::AddForces(const glm::vec2& Force)
+//Applies continuous forces that consider objects' mass
+void PhysObject::AddForce(const glm::vec2& Force)
 {
+	PendingAcceleration += Force / Mass;
 }
 
+//Applies instantaneous forces that consider objects' mass
 void PhysObject::AddImpulses(const glm::vec2& Impulse)
 {
+	Velocity += Impulse / Mass;
 }

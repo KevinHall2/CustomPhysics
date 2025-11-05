@@ -46,7 +46,7 @@ protected:
 	virtual void OnInit()
 	{
 		PhysObject newObject;
-		newObject.Position = { 300, 300 };
+		newObject.Position = { 200, 200 };
 		PhysObjects.push_back(newObject);
 	};
 

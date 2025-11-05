@@ -34,7 +34,7 @@ void World::TickFixed()
         if (physicsObjectOne.physicsEnabled)
         {
             physicsObjectOne.AddAcceleration({ 0,10 });
-            physicsObjectOne.TickPhys(TargetFixedStep);
+            physicsObjectOne.ContinuousTick(TargetFixedStep);
         }
     }
 
@@ -51,7 +51,12 @@ void World::Draw()
 
     for (auto& physicsObjectOne : PhysObjects)
     {
-        physicsObjectOne.DrawPhysicsCircle();
+        physicsObjectOne.DrawPhysicsCircleOne();
+    }
+
+    for (auto& physicsObjectTwo : PhysObjects)
+    {
+        physicsObjectTwo.DrawPhysicsCircleTwo();
     }
 
     EndDrawing();
