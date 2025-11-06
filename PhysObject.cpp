@@ -1,7 +1,7 @@
 #include "PhysObject.h"
 #include "raylib-cpp.hpp"
 
-PhysObject::PhysObject() : Position({ 0,0 }), Velocity({ 0,0 }), PendingAcceleration({ 0,0 })
+PhysObject::PhysObject() : Position({ 0,0 }), Velocity({ 0,0 }), PendingAcceleration({ 0,0 }), Collider({ShapeType::NONE})
 {
 }
 
@@ -17,9 +17,18 @@ void PhysObject::InstantaneousTick(float Delta)
 	Position += Velocity * Delta;
 }
 
-void PhysObject::DrawPhysicsCircleOne() const
+void PhysObject::DrawPhysicsCircle() const
 {
-	DrawCircle(Position.x, Position.y, 30, raylib::Color::Red());
+	switch (Collider.Type)
+	{
+	case ShapeType::NONE:
+		break;
+	case ShapeType::CIRCLE:
+		DrawCircleLines(Position.x, Position.y, 30, raylib::Color::Red());
+		break;
+	case ShapeType::AABB:
+		break;
+	}
 }
 
 void PhysObject::DrawPhysicsCircleTwo() const

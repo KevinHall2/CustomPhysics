@@ -43,12 +43,7 @@ public:
 
 protected:
 	//Runs at the end of Init()
-	virtual void OnInit()
-	{
-		PhysObject newObject;
-		newObject.Position = { 200, 200 };
-		PhysObjects.push_back(newObject);
-	};
+	virtual void OnInit();;
 
 	//Runs at the end of Tick()
 	virtual void OnTick() {};

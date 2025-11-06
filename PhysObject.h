@@ -1,5 +1,6 @@
 #pragma once
 #include <glm/vec2.hpp>
+#include "Shapes.h"
 
 class PhysObject
 {
@@ -14,13 +15,15 @@ public:
 	//Determines whether an object is effected by gravity or not
 	bool physicsEnabled;
 
-	float Mass = 1;
+	float Mass = 1.0f;
+
+	Shape Collider;
 
 	PhysObject();
 
 	void ContinuousTick(float Delta);
 	void InstantaneousTick(float Delta);
-	void DrawPhysicsCircleOne() const;
+	void DrawPhysicsCircle() const;
 	void DrawPhysicsCircleTwo() const;
 
 	//Applies continuous forces on objects of any mass equally like gravity

@@ -51,12 +51,7 @@ void World::Draw()
 
     for (auto& physicsObjectOne : PhysObjects)
     {
-        physicsObjectOne.DrawPhysicsCircleOne();
-    }
-
-    for (auto& physicsObjectTwo : PhysObjects)
-    {
-        physicsObjectTwo.DrawPhysicsCircleTwo();
+        physicsObjectOne.DrawPhysicsCircle();
     }
 
     EndDrawing();
@@ -79,4 +74,21 @@ bool World::ShouldClose() const
 bool World::ShouldTickFixed() const
 {
     return AccumulatedFixedTime >= TargetFixedStep;
+}
+
+//Runs at the end of Init()
+
+inline void World::OnInit() 
+{
+    PhysObject newObject;
+    newObject.Collider.Type = ShapeType::CIRCLE;
+    newObject.Collider.CircleData.Radius = 10.0f;
+    newObject.Position = { 100, 100 };
+    PhysObjects.push_back(newObject);
+
+    newObject.Position = { 500, 200 };
+    PhysObjects.push_back(newObject);
+
+    newObject.Position = { 300, 150 };
+    PhysObjects.push_back(newObject);
 }
