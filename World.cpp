@@ -6,6 +6,7 @@
 #include "raylib.h"
 #include "EnumUtility.h"
 #include "Shapes.h"
+#include "PhysObject.h"
 
 using CollisionFunc = bool (*)(const glm::vec2&, const Shape&, const glm::vec2&, const Shape&);
 using CollisionMap = std::unordered_map<ShapeType, CollisionFunc>;
@@ -68,14 +69,27 @@ void World::TickFixed()
             if (i.Collider.Type == ShapeType::NONE || j.Collider.Type == ShapeType::NONE) { continue; }
 
             ShapeType ColKey = i.Collider.Type | j.Collider.Type;
+
+            //i = lefthand side
+            //j = righthand side
+            ShapeType PairType = i.Collider.Type | j.Collider.Type;
+
             auto KeyPairIterator = ColMap.find(ColKey);
 
             bool bHasFunc = KeyPairIterator != ColMap.end();
             if (bHasFunc)
             {
                 bool bIsColliding = ColMap[ColKey](i.Position, i.Collider, j.Position, j.Collider);
+
                 if (bIsColliding)
                 {
+                    float penetration = 0.0f;
+
+                    glm::vec2 normal = DepenMap[PairType](i.Position, i.Collider,
+                        j.Position, j.Collider, penetration);
+
+                    //ResolvePhysObjects(&i, &j, 1.0f, normal, penetration);
+
                     std::cout << "Collision detected" << std::endl;
                 }
             }

@@ -61,3 +61,34 @@ void PhysObject::AddImpulses(const glm::vec2& Impulse)
 {
 	Velocity += Impulse / Mass;
 }
+
+float PhysObject::ResolveCollision(const glm::vec2& PositionA, const glm::vec2& VelocityA, float MassA, 
+	const glm::vec2& PositionB, const glm::vec2& VelocityB, float MassB, 
+	float Elasticity, const glm::vec2& Normal)
+{
+	glm::vec2 relativeVelocity = VelocityB - VelocityA;
+
+	//For glm::dot to function, "glm/glm.hpp" must be included
+	float impulseMagnitude = glm::dot(-(1.0f + Elasticity) * relativeVelocity, Normal) / glm::dot(Normal, Normal * (1 / MassA + 1 / MassB));
+
+	return impulseMagnitude;
+}
+
+void PhysObject::ResolvePhysObjects(PhysObject& LeftHandSide, PhysObject& RightHandSide, float Elasticity, const glm::vec2& Normal, float Penetration)
+{
+	//Calculates resolution impulse
+	//The Normal and Penetration vectors are passed by reference and will get updated
+	float impulseMagnitude = ResolveCollision(LeftHandSide.Position, LeftHandSide.Velocity, LeftHandSide.Mass,
+		RightHandSide.Position, RightHandSide.Velocity, RightHandSide.Mass, Elasticity, Normal);
+
+	//Depenetrates objects
+	glm::vec2 magnitudeVector = Normal * Penetration;
+	LeftHandSide.Position -= magnitudeVector;
+	RightHandSide.Position += magnitudeVector;
+
+	//Applies impulses to to update velocities after a collision
+	//Applies an equal but opposite force to the other
+	glm::vec2 impulse = Normal * impulseMagnitude;
+	LeftHandSide.AddImpulses(-impulse);
+	RightHandSide.AddImpulses(impulse);
+}
