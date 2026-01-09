@@ -1,6 +1,8 @@
 #include "PhysObject.h"
 #include "raylib-cpp.hpp"
 
+const float TARGET_FIXED_TIME_STEP = 1.0f / 30.0f;
+
 PhysObject::PhysObject() : Position({ 0,0 }), Velocity({ 0,0 }), PendingAcceleration({ 0,0 }), Collider({ShapeType::NONE})
 {
 }
@@ -22,6 +24,7 @@ void PhysObject::DrawPhysicsCircle() const
 	switch (Collider.Type)
 	{
 	case ShapeType::NONE:
+		DrawPixel(Position.x, Position.y, raylib::Color::Red());
 		break;
 	case ShapeType::CIRCLE:
 		DrawCircleLines(Position.x, Position.y, 30, raylib::Color::Red());

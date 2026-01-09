@@ -25,6 +25,16 @@ bool CheckAABBAABB(const glm::vec2& AABB1Position, const AABB& AABB1Shape, const
            AABB1Position.y + AABB1Shape.HalfExtents.y > AABB2Position.y - AABB2Shape.HalfExtents.y; //right within top collision
 }
 
+bool CheckCircleAABB(const glm::vec2& PositionA, const Circle& CircleA, const glm::vec2& PositionB, const AABB& AABB)
+{
+    //Finds the nearest point in the AABB in the direction of the circle
+    float DistanceX = PositionA.x - glm::clamp(PositionA.x, PositionB.x - AABB.HalfExtents.x, PositionB.x + AABB.HalfExtents.x);
+    float DistanceY = PositionA.y - glm::clamp(PositionA.x, PositionB.x - AABB.HalfExtents.x, PositionB.x + AABB.HalfExtents.x);
+
+    //Is considered to be in collision if the distance to that point is less than the circle's radius
+    return (DistanceX * DistanceX + DistanceY * DistanceY) < CircleA.Radius * CircleA.Radius;
+}
+
 bool CheckCircleCircle(const glm::vec2& Shape1Position, const Shape& Shape1, const glm::vec2& Shape2Position, const Shape& Shape2)
 {
     assert(Shape1.Type == ShapeType::CIRCLE && "Called CheckCircleCircle but a circle wasn't provided.");
@@ -59,4 +69,12 @@ glm::vec2 DepenetrateCircleCircle(const glm::vec2& PositionA, const Circle& Circ
 glm::vec2 DepenetrateCircleCircle(const glm::vec2& PositionA, const Shape& ShapeA, const glm::vec2& PositionB, const Shape& ShapeB, float& Penetration)
 {
     return DepenetrateCircleCircle(PositionA, ShapeA, PositionB, ShapeB, Penetration);
+}
+
+bool CheckCircleAABB(const glm::vec2& Shape1Position, const Shape& Shape1, const glm::vec2& Shape2Position, const Shape& Shape2)
+{
+    assert(Shape1.Type == ShapeType::CIRCLE && "Called CheckCircleAABB but a Circle wasn't provided for shape 1.");
+    assert(Shape2.Type == ShapeType::AABB && "Called CheckCircleAABB but an AABB wasn't provided for shape 2.");
+
+    return CheckCircleAABB(Shape1Position, Shape1.CircleData, Shape2Position, Shape2.AABBData);
 }

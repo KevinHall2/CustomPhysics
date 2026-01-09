@@ -30,6 +30,8 @@ void World::Init()
     SetTargetFPS(60);
 
     ColMap[ShapeType::CIRCLE | ShapeType::CIRCLE] = CheckCircleCircle;
+    ColMap[ShapeType::AABB | ShapeType::AABB] = CheckAABBAABB;
+    ColMap[ShapeType::CIRCLE | ShapeType::AABB] = CheckCircleAABB;
     DepenMap[ShapeType::CIRCLE | ShapeType::CIRCLE] = DepenetrateCircleCircle;
 
     OnInit();
@@ -69,26 +71,36 @@ void World::TickFixed()
             if (i.Collider.Type == ShapeType::NONE || j.Collider.Type == ShapeType::NONE) { continue; }
 
             ShapeType ColKey = i.Collider.Type | j.Collider.Type;
-
-            //i = lefthand side
-            //j = righthand side
-            ShapeType PairType = i.Collider.Type | j.Collider.Type;
-
             auto KeyPairIterator = ColMap.find(ColKey);
+
+            //PhysObject& LeftHandSide = i;
+            //PhysObject& RightHandSide = j;
+            /*ShapeType PairType = i.Collider.Type | j.Collider.Type;*/
+
 
             bool bHasFunc = KeyPairIterator != ColMap.end();
             if (bHasFunc)
             {
-                bool bIsColliding = ColMap[ColKey](i.Position, i.Collider, j.Position, j.Collider);
+                bool bIsColliding = false;
+
+                //Rearranges parameters if they are out of order
+                if (i.Collider.Type > j.Collider.Type)
+                {
+                    bIsColliding = ColMap[ColKey](j.Position, j.Collider, i.Position, i.Collider);
+                }
+                else
+                {
+                    bool bIsColliding = ColMap[ColKey](i.Position, i.Collider, j.Position, j.Collider);
+                }
 
                 if (bIsColliding)
                 {
-                    float penetration = 0.0f;
+                    /*float penetration = 0.0f;
 
                     glm::vec2 normal = DepenMap[PairType](i.Position, i.Collider,
-                        j.Position, j.Collider, penetration);
+                        j.Position, j.Collider, penetration);*/
 
-                    //ResolvePhysObjects(&i, &j, 1.0f, normal, penetration);
+                    /*ResolvePhysObjects(&i, &j, 1.0f, normal, penetration);*/
 
                     std::cout << "Collision detected" << std::endl;
                 }
@@ -142,17 +154,7 @@ bool World::ShouldTickFixed() const
 
 inline void World::OnInit() 
 {
-    PhysObject newObject;
-    newObject.Collider.Type = ShapeType::CIRCLE;
-    newObject.Collider.CircleData.Radius = 10.0f;
-    newObject.Position = { 100, 100 };
-    PhysObjects.push_back(newObject);
 
-    newObject.Position = { 500, 200 };
-    PhysObjects.push_back(newObject);
-
-    newObject.Position = { 300, 150 };
-    PhysObjects.push_back(newObject);
 }
 
 //Runs at the end of Tick()
