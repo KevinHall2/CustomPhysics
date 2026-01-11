@@ -28,7 +28,7 @@ void PhysObject::DrawPhysicsCircle() const
 		DrawPixel(Position.x, Position.y, raylib::Color::Red());
 		break;
 	case ShapeType::CIRCLE:
-		DrawCircleLines(Position.x, Position.y, 30, raylib::Color::Red());
+		DrawCircleLines(Position.x, Position.y, Collider.CircleData.Radius, raylib::Color::Red());
 		break;
 	case ShapeType::AABB:
 		DrawRectangleLines(Position.x - Collider.AABBData.HalfExtents.x, Position.y - Collider.AABBData.HalfExtents.y, Collider.AABBData.HalfExtents.x * 2.0f,
@@ -83,7 +83,7 @@ void PhysObject::ResolvePhysObjects(PhysObject& LeftHandSide, PhysObject& RightH
 		RightHandSide.Position, RightHandSide.Velocity, RightHandSide.Mass, Elasticity, Normal);
 
 	//Depenetrates objects
-	glm::vec2 minimumTranslationVector = Normal * Penetration;
+	glm::vec2 minimumTranslationVector = Normal * (Penetration / 2.0f);
 	LeftHandSide.Position -= minimumTranslationVector;
 	RightHandSide.Position += minimumTranslationVector;
 

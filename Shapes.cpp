@@ -29,7 +29,7 @@ bool CheckCircleAABB(const glm::vec2& PositionA, const Circle& CircleA, const gl
 {
     //Finds the nearest point in the AABB in the direction of the circle
     float DistanceX = PositionA.x - glm::clamp(PositionA.x, PositionB.x - AABB.HalfExtents.x, PositionB.x + AABB.HalfExtents.x);
-    float DistanceY = PositionA.y - glm::clamp(PositionA.x, PositionB.x - AABB.HalfExtents.x, PositionB.x + AABB.HalfExtents.x);
+    float DistanceY = PositionA.y - glm::clamp(PositionA.y, PositionB.y - AABB.HalfExtents.y, PositionB.y + AABB.HalfExtents.y);
 
     //Is considered to be in collision if the distance to that point is less than the circle's radius
     return (DistanceX * DistanceX + DistanceY * DistanceY) < CircleA.Radius * CircleA.Radius;
@@ -76,27 +76,27 @@ glm::vec2 DepenetrateCircleCircle(const glm::vec2& PositionA, const Circle& Circ
 
 glm::vec2 DepenetrateCircleCircle(const glm::vec2& PositionA, const Shape& ShapeA, const glm::vec2& PositionB, const Shape& ShapeB, float& Penetration)
 {
-    return DepenetrateCircleCircle(PositionA, ShapeA, PositionB, ShapeB, Penetration);
+    return DepenetrateCircleCircle(PositionA, ShapeA.CircleData, PositionB, ShapeB.CircleData, Penetration);
 }
 
 
 glm::vec2 DepenetrateAABBAABB(const glm::vec2& PositionA, const Shape& AABB1, const glm::vec2& PositionB, const Shape& AABB2, float& Penetration)
 {
-    //Gets the distance between the two circles
-    float distance = glm::length(PositionB - PositionA);
-
-    //Adds the sum of the two half extents
-    float halfExtents = AABB1.AABBData.HalfExtents.x + AABB2.AABBData.HalfExtents.x;
-
-    //Finds the difference and places it into the Penetration parameter
-    Penetration = halfExtents - distance;
+    //Calculates the overlap on each axis
+    float overlapX = (AABB1.AABBData.HalfExtents.x + AABB2.AABBData.HalfExtents.x) - abs(PositionB.x - PositionA.x);
+    float overlapY = (AABB1.AABBData.HalfExtents.y + AABB2.AABBData.HalfExtents.y) - abs(PositionB.y - PositionA.y);
 
     //Returns the direction to correct along
-    return glm::normalize(PositionB - PositionA);
-}
+    if (overlapX < overlapY)
+    {
+        Penetration = overlapX;
+        return glm::normalize(PositionB - PositionA);
+    }
+    else
+    {
+        Penetration = overlapY;
+        return glm::normalize(PositionB - PositionA);
+    }
 
-//glm::vec2 DepenetrateAABBAABB(const glm::vec2& PositionA, const Shape& ShapeA, const glm::vec2& PositionB, const Shape& ShapeB, float& Penetration)
-//{
-//    return DepenetrateAABBAABB(PositionA, ShapeA, PositionB, ShapeB, Penetration);
-//}
+}
 

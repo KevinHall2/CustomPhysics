@@ -33,7 +33,7 @@ void World::Init()
     ColMap[ShapeType::AABB | ShapeType::AABB] = CheckAABBAABB;
     ColMap[ShapeType::CIRCLE | ShapeType::AABB] = CheckCircleAABB;
     DepenMap[ShapeType::CIRCLE | ShapeType::CIRCLE] = DepenetrateCircleCircle;
-    //DepenMap[ShapeType::AABB | ShapeType::AABB] = DepenetrateAABBAABB;
+    DepenMap[ShapeType::AABB | ShapeType::AABB] = DepenetrateAABBAABB;
     //DepenMap[ShapeType::AABB | ShapeType::CIRCLE] = DepenetrateCircleAABB;
 
     OnInit();
