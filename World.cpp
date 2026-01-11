@@ -34,8 +34,8 @@ void World::Init()
     ColMap[ShapeType::CIRCLE | ShapeType::AABB] = CheckCircleAABB;
     DepenMap[ShapeType::CIRCLE | ShapeType::CIRCLE] = DepenetrateCircleCircle;
     DepenMap[ShapeType::AABB | ShapeType::AABB] = DepenetrateAABBAABB;
-    DepenMap[ShapeType::AABB | ShapeType::CIRCLE] = DepenetrateCircleAABB;
-
+    DepenMap[ShapeType::CIRCLE | ShapeType::AABB] = DepenetrateCircleAABB;
+    //std::unordered_map<ShapeType, DepenetrationFunc>;
     OnInit();
 }
 

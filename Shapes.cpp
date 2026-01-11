@@ -100,29 +100,33 @@ glm::vec2 DepenetrateAABBAABB(const glm::vec2& PositionA, const Shape& AABB1, co
 
 }
 
-glm::vec2 DepenetrateCircleAABB(const glm::vec2& CirclePosition, const Circle& CircleA, const glm::vec2& AABBPosition, const AABB& AABB, float& Penetration)
+glm::vec2 DepenetrateCircleAABB(const glm::vec2& CirclePosition, const Shape& CircleA, const glm::vec2& AABBPosition, const Shape& AABB, float& Penetration)
 {
     //Finds the nearest point in the AABB in the direction of the circle
-    float DistanceX = CirclePosition.x - glm::clamp(CirclePosition.x, AABBPosition.x - AABB.HalfExtents.x, AABBPosition.x + AABB.HalfExtents.x);
-    float DistanceY = CirclePosition.y - glm::clamp(CirclePosition.y, AABBPosition.y - AABB.HalfExtents.y, AABBPosition.y + AABB.HalfExtents.y);
+    float NearestXPoint = CirclePosition.x - glm::clamp(CirclePosition.x, AABBPosition.x - AABB.AABBData.HalfExtents.x, AABBPosition.x + AABB.AABBData.HalfExtents.x);
+    float NearestYPoint = CirclePosition.y - glm::clamp(CirclePosition.y, AABBPosition.y - AABB.AABBData.HalfExtents.y, AABBPosition.y + AABB.AABBData.HalfExtents.y);
 
-    float circleEdge1X = CirclePosition.x - CircleA.Radius;
-    float circleEdge1Y = CirclePosition.y - CircleA.Radius;
-    const glm::vec2 circleEdge1 = circleEdge1X, circleEdge1Y;
+    //Gets the center of the provided circle
+    glm::vec2 center = GetCenter(CirclePosition.x - CircleA.CircleData.Radius, CirclePosition.x + CircleA.CircleData.Radius, 
+        CirclePosition.y - CircleA.CircleData.Radius, CirclePosition.y + CircleA.CircleData.Radius);
 
-    glm::vec2 GetCenter(float x1, float x2, float y1, float y2);
-
-    if (DistanceX < DistanceY)
+    //Gets the penetration depth and the collision normal
+    if (NearestXPoint < NearestYPoint)
     {
-        glm::vec2& collisionNormal = glm::normalize((DistanceY, DistanceX), CircleA.Radius);
+        Penetration = CircleA.CircleData.Radius - (center.y - NearestXPoint);
 
+        return glm::normalize(NearestXPoint - center);
     }
-    return glm::normalize(AABBPosition - CirclePosition);
+    else
+    {
+        Penetration = CircleA.CircleData.Radius - (center.x - NearestYPoint);
+        return glm::normalize(NearestYPoint - center);
+    }
 }
 
 glm::vec2 GetCenter(float x1, float x2, float y1, float y2)
 {
-    glm::vec2 circleCenter = ((x1 + x2) / 2), ((y1 + y2) / 2);
+    glm::vec2 circleCenter = { (x1 + x2) / 2, (y1 + y2) / 2 };
     return circleCenter;
 }
 
