@@ -62,5 +62,8 @@ glm::vec2 DepenetrateCircleCircle(const glm::vec2& PositionA, const Shape& Shape
 //Determines the minimum translation vector (MTV) to separate two AABBs
 glm::vec2 DepenetrateAABBAABB(const glm::vec2& PositionA, const Shape& AABB1, const glm::vec2& PositionB, const Shape& AABB2, float& Penetration);
 
-//Determines the minimum translation vector (MTV) to separate two shapes (assuming they're AABBs)
-glm::vec2 DepenetrateAABBAABB(const glm::vec2& PositionA, const Shape& ShapeA, const glm::vec2& PositionB, const Shape& ShapeB, float& Penetration);
+//Determines the minimum translation vector (MTV) to separate a circle and an AABB
+glm::vec2 DepenetrateCircleAABB(const glm::vec2& PositionA, const Circle& CircleA, const glm::vec2& PositionB, const AABB& AABB, float& Penetration);
+
+//Finds the center of a circle
+glm::vec2 GetCenter(float x1, float x2, float y1, float y2);
