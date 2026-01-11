@@ -25,7 +25,6 @@ public:
 	void ContinuousTick(float Delta);
 	void InstantaneousTick(float Delta);
 	void DrawPhysicsCircle() const;
-	void DrawPhysicsCircleTwo() const;
 
 	//Applies continuous forces on objects of any mass equally like gravity
 	void AddAcceleration(const glm::vec2 & Acceleration);
@@ -38,6 +37,11 @@ public:
 
 	//Applies instantaneous forces that consider objects' mass
 	void AddImpulses(const glm::vec2& Impulse);
+
+	//Calculates an impulse to object A and B, assuming they're in collision
+	float ResolveCollisions(const glm::vec2& PositionA, const glm::vec2& VelocityA, float MassA,
+		const glm::vec2& PositionB, const glm::vec2& VelocityB, float MassB,
+		float Elasticity, const glm::vec2& Normal);
 
 	//Resolves a collision between two PhysObject instances
 	void ResolvePhysObjects(PhysObject& LeftHandSide, PhysObject& RightHandSide, float Elasticity, const glm::vec2& Normal, float Penetration);

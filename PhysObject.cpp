@@ -1,6 +1,5 @@
 #include "PhysObject.h"
 #include "raylib-cpp.hpp"
-#include "Physics.h"
 
 const float TARGET_FIXED_TIME_STEP = 1.0f / 30.0f;
 
@@ -38,11 +37,6 @@ void PhysObject::DrawPhysicsCircle() const
 	}
 }
 
-void PhysObject::DrawPhysicsCircleTwo() const
-{
-	DrawCircle(Position.x+75, Position.y+75, 30, raylib::Color::Blue());
-}
-
 //Applies continuous forces on objects of any mass equally like gravity
 void PhysObject::AddAcceleration(const glm::vec2& Acceleration)
 {
@@ -65,6 +59,20 @@ void PhysObject::AddForce(const glm::vec2& Force)
 void PhysObject::AddImpulses(const glm::vec2& Impulse)
 {
 	Velocity += Impulse / Mass;
+}
+
+float PhysObject::ResolveCollisions(const glm::vec2& PositionA, const glm::vec2& VelocityA, float MassA, const glm::vec2& PositionB, 
+	const glm::vec2& VelocityB, float MassB, float Elasticity, const glm::vec2& Normal)
+{
+	//Calculates the relative Velocity
+	glm::vec2 relativeVelocity = VelocityB - VelocityA;
+
+	//Calculates the impulse magnitude
+	float impulseMagnitude = glm::dot(-(1.0f + Elasticity) * relativeVelocity, Normal) /
+		glm::dot(Normal, Normal * (1 / MassA + 1 / MassB));
+
+	//Returns the impulse to apply to both objects
+	return impulseMagnitude;
 }
 
 void PhysObject::ResolvePhysObjects(PhysObject& LeftHandSide, PhysObject& RightHandSide, float Elasticity, const glm::vec2& Normal, float Penetration)
